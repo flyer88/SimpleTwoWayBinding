@@ -26,7 +26,7 @@ public class BindUtils {
         }
     }
 
-    public static void listenView(final IModelListener bindObject, final String bindAttr, View view){
+    public static void listenView(final Observable bindObject, final String bindAttr, View view){
         if (view instanceof TextView){
             ((TextView) view).addTextChangedListener(new TextWatcher() {
                 @Override

@@ -10,7 +10,7 @@ import java.util.List;
  * Created by flyer on 2017/11/16.
  * 控件和 Model 的 Attribute 进行绑定的核心层
  */
-public class ViewModel<O extends IModelListener> {
+public class ViewModel<O extends Observable> {
 
 
     private O bindObject;
@@ -18,10 +18,13 @@ public class ViewModel<O extends IModelListener> {
 
     public ViewModel(O bindObject){
         this.bindObject = bindObject;
-        bindObject.setValueChangedListener(new ValueChangedListener() {
+        bindObject.addPropertyChangedListener(new PropertyChangedListener() {
             @Override
-            public void onValueChanged(Object changedObject, Object changedValue, String changedAttr) {
+            public void onPropertyChanged(Object changedObject, Object changedValue, String changedAttr) {
                 List<View> views = bindViewMap.get(changedAttr);
+                if (views == null){
+                    return;
+                }
                 for (View view : views) {
                     BindUtils.updateView(changedValue,view,changedAttr);
                 }

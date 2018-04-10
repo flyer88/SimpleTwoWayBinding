@@ -20,4 +20,10 @@ public class Utils {
         }
         return value1.equals(value2);
     }
+
+    public static String captureString(String s){
+        char[] cs = s.toCharArray();
+        cs[0] -=32;
+        return String.valueOf(cs);
+    }
 }

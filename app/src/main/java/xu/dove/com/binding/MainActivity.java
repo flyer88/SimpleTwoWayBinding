@@ -1,8 +1,8 @@
 package xu.dove.com.binding;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -11,10 +11,10 @@ import xu.dove.com.binding.bind.ViewModel;
 public class MainActivity extends AppCompatActivity{
 
 
-    User mUser = new User();
     TextView nameTv;
     EditText setNameEt;
     ViewModel<User> mViewModel;
+    User mUser2 = new User();
 
 
     @Override
@@ -23,10 +23,10 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         nameTv = findViewById(R.id.name_tv);
         setNameEt = findViewById(R.id.set_name_et);
-        mViewModel = new ViewModel<>(mUser);
+        mViewModel = new ViewModel<>(mUser2);
         mViewModel.bind(nameTv,"name");
         mViewModel.bind(setNameEt,"name");
-        mUser.setName("dove");
+        mUser2.setName("dove");
     }
 
 
