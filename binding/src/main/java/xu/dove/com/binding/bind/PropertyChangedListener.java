@@ -10,7 +10,7 @@ public interface PropertyChangedListener {
      * 数据层修改监听
      * @param changedObject 修改的对象
      * @param changedValue 修改后属性的值
-     * @param changedAttr 修改的属性名字
+     * @param changedField 修改的属性名字
      */
-    void onPropertyChanged(Object changedObject, Object changedValue, String changedAttr);
+    void onPropertyChanged(Observable changedObject, Object changedValue, String changedField);
 }

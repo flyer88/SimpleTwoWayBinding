@@ -1,5 +1,6 @@
 package xu.dove.com.binding;
 
+import io.dove.binding.annotation.BindableField;
 import xu.dove.com.binding.bind.BaseObservable;
 
 /**
@@ -8,6 +9,7 @@ import xu.dove.com.binding.bind.BaseObservable;
 
 public class User extends BaseObservable{
 
+    @BindableField
     protected String name;
 
     public String getName() {
@@ -16,6 +18,6 @@ public class User extends BaseObservable{
 
     public void setName(String name) {
         this.name = name;
-        onPropertyChanged("name",name);
+        onPropertyChanged("name");
     }
 }

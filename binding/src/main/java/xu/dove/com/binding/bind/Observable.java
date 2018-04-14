@@ -23,8 +23,8 @@ public interface Observable {
     /**
      * 更新数据层接口
      * @param value
-     * @param attrs
+     * @param field
      */
-    void update(Object value,String attrs);
+    void update(Object value,String field);
 
 }
