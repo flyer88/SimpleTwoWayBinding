@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import io.dove.binding.annotation.TwoWay;
 import xu.dove.com.binding.bind.ViewDataBinding;
 
 
@@ -17,12 +16,6 @@ public class MainActivity extends AppCompatActivity{
     TextView nameTv;
     EditText setNameEt;
     ViewDataBinding<User, View> mMainBinding;
-
-    @TwoWay(layout = R.layout.activity_main,
-            widget = R.id.set_name_et,
-            attrs = "text",
-            field = "name")
-
     User mUser2 = new User();
 
     @Override
@@ -55,8 +48,6 @@ public class MainActivity extends AppCompatActivity{
 //                    }
 //
 //                }, true);
-
-
         mMainBinding.twoWay(mUser2, "name", setNameEt, "text");
 //        mMainBinding.twoWay(mUser2, "name", setNameEt, "text",
 //                new Transform<String, String>() {

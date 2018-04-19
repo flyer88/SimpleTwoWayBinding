@@ -1,11 +1,9 @@
 package xu.dove.com.binding.bind;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.jar.Attributes;
 
 import xu.dove.com.binding.bind.view.ViewListenerUtils;
 import xu.dove.com.binding.bind.view.ViewUpdateUtils;
@@ -16,10 +14,6 @@ import xu.dove.com.binding.bind.view.ViewUpdateUtils;
  */
 public class ViewDataBinding<O extends Observable, V extends View> implements Binding<O,V>{
 
-
-//    protected HashMap<Class<? extends View>,BindAttrAndField> bindViewMap = new HashMap<Class<? extends View>, BindAttrAndField>();
-//    protected HashMap<Class<? extends Observable>,List<View>> bindObjectMap = new HashMap<Class<? extends Observable>,List<View>>();
-
     private ViewAttrChangedListener mTextAndroidTextAttrChangedListener = new ViewAttrChangedListener() {
         @Override
         public void onViewAttrChanged(Observable bindObject, String field,View view, Object changedValue, String changedAttr) {
@@ -27,8 +21,13 @@ public class ViewDataBinding<O extends Observable, V extends View> implements Bi
         }
     };
 
-    public ViewDataBinding(){
+    private Handler mUIThreadHandler;
 
+    public ViewDataBinding(){
+        if (Looper.myLooper() == null) {
+            throw new IllegalStateException("DataBinding must be created in view's UI Thread");
+        }
+        mUIThreadHandler = new Handler(Looper.myLooper());
     }
 
     @Override
@@ -73,11 +72,6 @@ public class ViewDataBinding<O extends Observable, V extends View> implements Bi
                 }
             });
         }
-//        if (inverse) {
-//            twoWay(bindObject, modelField, view, viewAttr, null,v2m);
-//        } else {
-//            twoWay(bindObject, modelField, view, viewAttr,  v2m,null);
-//        }
     }
 
     @Override
@@ -111,15 +105,19 @@ public class ViewDataBinding<O extends Observable, V extends View> implements Bi
      * @param viewAttr
      */
     protected void handleModelFieldChanged(Observable changedObject, Object changedValue,
-                                           View view, String viewAttr,
+                                           final View view, final String viewAttr,
                                            Transform transform){
         Object value = changedValue;
-        if (transform == null) {
-
-        } else {
+        if (transform != null) {
             value = transform.trans(changedValue);
         }
-        ViewUpdateUtils.updateView(value,view,viewAttr);
+        final Object finalValue = value;
+        mUIThreadHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                ViewUpdateUtils.updateView(finalValue,view,viewAttr);
+            }
+        });
     }
 
     /**
@@ -134,26 +132,5 @@ public class ViewDataBinding<O extends Observable, V extends View> implements Bi
         ViewListenerUtils.setAttrChangedListener(view,modelField,bindObject,transform,mTextAndroidTextAttrChangedListener);
     }
 
-
-    public class BindAttrAndField{
-        private String viewAttr;
-        private String modelField;
-
-        public String getViewAttr() {
-            return viewAttr;
-        }
-
-        public void setViewAttr(String viewAttr) {
-            this.viewAttr = viewAttr;
-        }
-
-        public String getModelField() {
-            return modelField;
-        }
-
-        public void setModelField(String modelField) {
-            this.modelField = modelField;
-        }
-    }
 
 }

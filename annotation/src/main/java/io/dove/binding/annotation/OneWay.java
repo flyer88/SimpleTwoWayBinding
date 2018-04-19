@@ -1,6 +1,6 @@
-package io.dove.binding.annotation;
-
-
-public @interface OneWay {
-
-}
+//package io.dove.binding.annotation;
+//
+//
+//public @interface OneWay {
+//
+//}

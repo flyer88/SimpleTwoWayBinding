@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import xu.dove.com.binding.User;
 import xu.dove.com.binding.Utils;
 
 /**
